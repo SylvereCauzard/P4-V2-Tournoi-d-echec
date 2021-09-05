@@ -141,3 +141,5 @@ cython_debug/
 
 .ico
 .png
+
+.json
