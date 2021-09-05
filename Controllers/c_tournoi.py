@@ -5,7 +5,7 @@ from v_tournoi import ViewTournois
 class ControllerTournois:
 
     @staticmethod
-    def creation_tournois():
+    def toirnoi_creation():
 
         vue = ViewTournois()
         name = vue.creation_tournois()
@@ -21,5 +21,5 @@ class ControllerTournois:
 
 
 run_control = ControllerTournois()
-run_control.creation_tournois()
+run_control.toirnoi_creation()
 

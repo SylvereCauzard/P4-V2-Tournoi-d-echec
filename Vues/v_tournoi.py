@@ -1,5 +1,6 @@
 from data import TOURNOIS
 
+
 class ViewTournois:
 
     def creation_tournois(self):
