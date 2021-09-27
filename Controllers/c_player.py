@@ -1,21 +1,31 @@
-from m_players import Player
-from v_player import ViewJoueurs
+from Modèles.m_players import Player
+
+from data import PLAYERS
 
 
 class ControllerJoueur:
 
-    @staticmethod
-    def add_new_player() -> None:
+    def __init__(self, view) -> None:
+        self.view = view
 
-        vue = ViewJoueurs()
-        family_name = vue.ajout_joueur_family_name()
-        name = vue.ajout_joueur_name()
-        birthday = vue.ajout_joueur_birthday()
-        sexe = vue.ajout_joueur_sexe()
-        classement = vue.ajout_joueur_classement()
+    def get_info_player(self) -> None:
+        """Get the user entry info and create a player"""
+
+        family_name, name, birthday, sexe, classement = self.view.ask_info_player()
         player = Player(family_name, name, birthday, sexe, classement)
         player.save()
 
+    def instantiates_players(self) -> dict:
+        """instantiates 8 players selected by the user in a dict"""
 
-run_player = ControllerJoueur()
-run_player.add_new_player()
+        players_list = self.view.create_players_id_dict()
+        for key in players_list:
+            player_data = PLAYERS.get(doc_id=players_list.get(key))
+            players_list[key] = Player(
+                family_name=player_data.get("family_name"),
+                name=player_data.get("name"),
+                birthday=player_data.get("birthday"),
+                sexe=player_data.get("sexe"),
+                classement=player_data.get("classement"),
+            )
+        return players_list

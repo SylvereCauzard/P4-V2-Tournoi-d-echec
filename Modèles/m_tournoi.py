@@ -2,42 +2,16 @@ from data import TOURNOIS
 
 
 class Tournoi:
-    NOMBRE_JOUEUR = 8
 
-    def __init__(self, name, place, date, tours, rounded, joueurs, time, description):
+    def __init__(self, name, place, date, time, description):
 
         self.name = name
         self.place = place
         self.date = date
-        self.tours = tours
-        self.rounded = rounded
-        self.joueurs = joueurs
+        self.nombre_tours = 4
+        self.joueurs = {}
         self.time = time
         self.description = description
-
-    def get_name(self):
-        return self.name
-
-    def get_place(self):
-        return self.place
-
-    def get_date(self):
-        return self.date
-
-    def get_tours(self):
-        return self.tours
-
-    def get_rounded(self):
-        return self.rounded
-
-    def get_joueurs(self):
-        return self.joueurs
-
-    def get_time(self):
-        return self.time
-
-    def get_description(self):
-        return self.description
 
     def save(self):
         """Save the info in tournaments.json"""
@@ -45,6 +19,8 @@ class Tournoi:
             "Name": self.name,
             "Place": self.place,
             "Date": self.date,
+            "Joueurs": self.joueurs,
+            "Time": self.time,
             "Description": self.description
         })
 
