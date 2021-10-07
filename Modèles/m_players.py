@@ -6,8 +6,6 @@ import check_functions as check
 
 class Player:
 
-    liste_player = []
-
     def __init__(self, family_name, name, birthday, sexe, classement, faced_players, tournament_score=0):
         self.family_name = family_name
         self.name = name
@@ -16,10 +14,6 @@ class Player:
         self.classement = classement
         self.faced_players = faced_players
         self.tournament_score = tournament_score
-
-    @classmethod
-    def add_joueur(cls, joueur):
-        cls.liste_player.append(joueur)
 
     def save(self):
         """Save the info of a player"""
@@ -58,11 +52,11 @@ class Player:
         """deserialize one player and instantiate it"""
         player_data = PLAYERS.get(doc_id=key)
         player = cls(
-            family_name=player_data.get("first_name"),
-            name=player_data.get("last_name"),
+            family_name=player_data.get("family_name"),
+            name=player_data.get("name"),
             birthday=player_data.get("birthday"),
-            sexe=player_data.get("genre"),
-            classement=player_data.get("ranking"),
+            sexe=player_data.get("sexe"),
+            classement=player_data.get("classement"),
             faced_players=player_data.get("faced_players")
         )
         return player

@@ -22,8 +22,11 @@ class ViewTournois:
                     if check.check_input_string_integer(place) is True:
                         break
 
-        print("Entrer la date sous ce format YEAR-MONTH-DAY : ")
-        date = check.check_date_input()
+        print("Entrer la date de départ du tournoi sous ce format YEAR-MONTH-DAY : ")
+        start_date = check.check_date_input()
+        print("Entrer la date de fin du tournoi sous ce format YEAR-MONTH-DAY : ")
+        end_date = check.check_date_input()
+        date = f"{start_date} to {end_date}"
 
         print(
             "1: Bullet = 1 minute \n"
@@ -39,7 +42,7 @@ class ViewTournois:
     def show_tournaments(self) -> None:
         """Show all the tournaments with id saved in tournaments.json"""
         tournament_id = 0
-        print("List of all Tournaments : ")
+        print("Liste de tous les tournois : ")
 
         for tournament in TOURNOIS:
             tournament_id += 1
@@ -47,6 +50,7 @@ class ViewTournois:
                 f"{str(tournament_id)} : {tournament.get('name')} |"
                 f" {tournament.get('place')} |"
                 f" {tournament.get('date')}  |"
+                f" Time : {tournament.get('time')} |"
                 f" {tournament.get('description')}"
             )
 
@@ -56,7 +60,7 @@ class ViewTournois:
         for player in PLAYERS:
             get_players_numbers_saved += 1
         if get_players_numbers_saved <= 7:
-            print("The database of players need 8 saved players minimum !")
+            print("Il vous faut un minimum de 8 joueurs enregistrés dans la base de donnée !")
             return False
         elif get_players_numbers_saved == 8 or get_players_numbers_saved > 8:
             return True
@@ -74,7 +78,7 @@ class ViewTournois:
             round_3 = tournament_data.get("score_round_3")
             round_4 = tournament_data.get("score_round_4")
             print("===================")
-            print("|RESULT OF ROUND 1|")
+            print("|RESULTAT ROUND 1|")
             print("===================")
             print("START TIME :")
             print(round_1[4][0])
@@ -85,7 +89,7 @@ class ViewTournois:
                 print(tuple_round_1)
             print("___________________________")
             print("===================")
-            print("|RESULT OF ROUND 2|")
+            print("|RESULTAT ROUND 2|")
             print("===================")
             print("START TIME :")
             print(round_2[4][0])
@@ -96,7 +100,7 @@ class ViewTournois:
                 print(tuple_round_2)
             print("___________________________")
             print("===================")
-            print("|RESULT OF ROUND 3|")
+            print("|RESULTAT ROUND 3|")
             print("===================")
             print("START TIME :")
             print(round_3[4][0])
@@ -107,7 +111,7 @@ class ViewTournois:
                 print(tuple_round_3)
             print("___________________________")
             print("===================")
-            print("|RESULT OF ROUND 4|")
+            print("|RESULTAT ROUND 4|")
             print("===================")
             print("START TIME :")
             print(round_4[4][0])
@@ -120,7 +124,7 @@ class ViewTournois:
         else:
             round = tournament_data.get(selected_round)
             print("===================")
-            print(f"|RESULT OF {selected_round.replace('score_', '').replace('_', ' ').upper()}|")
+            print(f"|RESULTAT DE {selected_round.replace('score_', '').replace('_', ' ').upper()}|")
             print("===================")
 
             print("START TIME :")
@@ -135,15 +139,15 @@ class ViewTournois:
 
     def display_selected_players(self, deserialized_players_list) -> None:
         """Display a message for print selected players of a tournament"""
-        print("Selected players have been added to the Tournament :\n")
+        print("Les joueurs sélectionés ont été ajouté au tournoi :\n")
         for player in deserialized_players_list:
             print(player)
         print("\n")
 
     def display_choose_a_tournament(self) -> None:
         """simply print a message"""
-        print("\nChoose a tournament for add players : ")
+        print("\nChoissisez un tournoi pour y ajouter des joueurs : ")
 
     def display_empty_tournaments_file(self) -> None:
         """Simply display message if tournaments.json are empty"""
-        print("\nNo tournament has been created yet")
+        print("\nAncun tournoi n'a été encore créé")

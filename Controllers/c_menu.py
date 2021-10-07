@@ -71,7 +71,7 @@ class MenuSelection:
                 if self.player_controller.check_data_players_numbers():
                     self.player_view.display_empty_players_file()
                 else:
-                    self.player_controller.view.show_player()
+                    self.player_controller.view.show_players()
             if choix == "3":
                 self.tournament_controller.view.show_tournaments()
                 self.player_controller.view.show_players_specific_tournament()

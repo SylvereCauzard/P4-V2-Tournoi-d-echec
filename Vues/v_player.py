@@ -10,7 +10,7 @@ class ViewJoueurs:
     def ask_info_player(self) -> str:
         """Get info of a player"""
 
-        print("Enter family name : ")
+        print("Entrer le nom de famille : ")
         while True:
             family_name = input()
             if check.check_input_string_special(family_name) is True:
@@ -18,7 +18,7 @@ class ViewJoueurs:
                     if check.check_input_string_integer(family_name) is True:
                         break
 
-        print("Enter last name : ")
+        print("Entrer le prénom : ")
         while True:
             name = input()
             if check.check_input_string_special(name) is True:
@@ -26,20 +26,20 @@ class ViewJoueurs:
                     if check.check_input_string_integer(name) is True:
                         break
 
-        print("Enter date of birth with this format YEAR-MONTH-DAY :  ")
+        print("Entrer la date de naissance sous ce format YEAR-MONTH-DAY :  ")
         birthday = check.check_date_input()
 
         print(
-            "Enter a number for choose the gender : \n"
-            "1 - Man \n"
-            "2 - Women"
+            "Choissez un chiffre pour le sexe : \n"
+            "1 - Homme \n"
+            "2 - Femme"
         )
         sexe = check.request_selection_with_number("Man", "Women", "none")
 
-        print("Enter the classement of the Player : ")
+        print("Entrer le classement du joueur : ")
         classement = check.request_number()
 
-        print("\n The player {} {}, {}, birth on {} with {} elo has been added to the database !".format(
+        print("\n Le joueur {} {}, {}, né le {} avec {} d'elo a été rajouté à la base de donnée !".format(
             family_name,
             name,
             sexe,
@@ -62,26 +62,26 @@ class ViewJoueurs:
             liste_player.append(data_player)
 
         print(
-            "Do you want the list of players by alphabetical order or by ranking ? \n"
-            "1 - Ranking players list \n"
-            "2 - Alphabetical players list"
+            "Voulez vous la liste des joueurs par ordre alphabétique ou de classement ? \n"
+            "1 - Liste des joueurs par classement \n"
+            "2 - Liste des joueurs par ordre alphabétique"
             )
-        choice = check.request_selection_with_number("ranking", "alphabetical", "None")
-        if choice == "ranking":
+        choice = check.request_selection_with_number("classement", "alphabétique", "None")
+        if choice == "classement":
             player_id = 0
             players_list = sorted(liste_player, key=lambda player: players_list[4])
-            print("******************************************")
-            print("List of all Players in ranking order : ")
-            print("******************************************")
+            print("*******************************************")
+            print("Liste de tous les joueurs par classement : ")
+            print("*******************************************")
             for player in players_list:
                 player_id += 1
                 print(str(player_id) + " : " + player)
-        elif choice == "alphabetical":
+        elif choice == "alphabétique":
             player_id = 0
             liste_player.sort()
-            print("******************************************")
-            print("List of all Players in alphabetical order : ")
-            print("******************************************")
+            print("***************************************************")
+            print("Liste de tous les joueurs par ordre alphabétique : ")
+            print("***************************************************")
             for player in liste_player:
                 player_id += 1
                 print(str(player_id) + " : " + player)
@@ -91,7 +91,7 @@ class ViewJoueurs:
         id_choice = check.request_id(TOURNOIS)
         tournament_data = TOURNOIS.get(doc_id=id_choice)
         if tournament_data.get("players") == {}:
-            print("\n This tournaments has no players yet")
+            print("\n Ce tournoi n'a pas encore de joueurs")
         else:
             players_list = tournament_data.get("players")
             deserialized_player_list = []
@@ -99,16 +99,16 @@ class ViewJoueurs:
                 deserialized_player = Player(**json.loads(player_data))
                 deserialized_player_list.append(deserialized_player)
             print(
-                "Do you want the list of players by alphabetical order or by ranking ? \n"
-                "1 - Ranking players list \n"
-                "2 - Alphabetical players list"
+                "Voulez vous la liste des joueurs par ordre alphabétique ou de classement ? \n"
+                "1 - Liste des joueurs par classement \n"
+                "2 - Liste des joueurs par ordre alphabétique"
             )
-            choice = check.request_selection_with_number("alphabetical", "ranking", "None")
-            if choice == "alphabetical":
+            choice = check.request_selection_with_number("alphabétique", "classement", "None")
+            if choice == "alphabétique":
                 deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.first_name)
                 for deserialized_player in deserialized_player_list:
                     print(deserialized_player)
-            elif choice == "ranking":
+            elif choice == "classement":
                 deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.ranking)
                 for deserialized_player in deserialized_player_list:
                     print(deserialized_player)
@@ -118,7 +118,7 @@ class ViewJoueurs:
         players_id = {}
         key = 0
         self.show_players()
-        print("\n" + "Enter id of wanted players : ")
+        print("\n" + "Entrer l'id des joueurs voulu : ")
         while len(players_id) < 8:
             while True:
                 id_choice = check.request_id(PLAYERS)
@@ -130,4 +130,4 @@ class ViewJoueurs:
 
     def display_empty_players_file(self) -> None:
         """Simply display message if players.json are empty"""
-        print("\nNo players has been created yet")
+        print("\nAucun joueur n'a été encore créé!")

@@ -13,7 +13,8 @@ class ControllerTournois:
 
     def __init__(self, view) -> None:
         self.view = view
-        self.player_controller = ControllerJoueur(ViewJoueurs)
+        self.player_view = ViewJoueurs
+        self.player_controller = ControllerJoueur(self.player_view)
 
     def get_info_tournament(self) -> None:
         """Get the user entry info and create tournament"""
