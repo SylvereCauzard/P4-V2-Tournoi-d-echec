@@ -1,6 +1,6 @@
 from string import digits, punctuation
-
 import datetime
+
 
 
 def check_input_string_len(string_to_check) -> bool:
@@ -102,3 +102,9 @@ def request_number() -> int:
             print("Enter a valid number : ")
 
         return result
+
+def get_actual_date_and_time() -> str:
+    """get actual date and time and return them"""
+    now = datetime.now()
+    date_string = now.strftime("%Y/%m/%d %H:%M:%S")
+    return date_string

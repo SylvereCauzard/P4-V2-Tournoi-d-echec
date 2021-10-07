@@ -1,6 +1,7 @@
 from data import PLAYERS, TOURNOIS
 from Modèles.m_players import Player
 import check_functions as check
+
 import json
 
 
@@ -61,21 +62,26 @@ class ViewJoueurs:
             liste_player.append(data_player)
 
         print(
-            "Do you want the list of players by alphabetical order ? \n"
-            "1 - Yes \n"
-            "2 - No"
-        )
-        choice = check.request_selection_with_number("Yes", "No", "None")
-        if choice == "Yes":
+            "Do you want the list of players by alphabetical order or by ranking ? \n"
+            "1 - Ranking players list \n"
+            "2 - Alphabetical players list"
+            )
+        choice = check.request_selection_with_number("ranking", "alphabetical", "None")
+        if choice == "ranking":
             player_id = 0
-            liste_player.sort()
-            print("LIST OF ALL PLAYERS IN ALPHABETICAL ORDER : ")
-            for player in liste_player:
+            players_list = sorted(liste_player, key=lambda player: players_list[4])
+            print("******************************************")
+            print("List of all Players in ranking order : ")
+            print("******************************************")
+            for player in players_list:
                 player_id += 1
                 print(str(player_id) + " : " + player)
-        elif choice == "No":
+        elif choice == "alphabetical":
             player_id = 0
-            print("LIST OF ALL PLAYERS : ")
+            liste_player.sort()
+            print("******************************************")
+            print("List of all Players in alphabetical order : ")
+            print("******************************************")
             for player in liste_player:
                 player_id += 1
                 print(str(player_id) + " : " + player)
@@ -93,16 +99,17 @@ class ViewJoueurs:
                 deserialized_player = Player(**json.loads(player_data))
                 deserialized_player_list.append(deserialized_player)
             print(
-                "Do you want the list of players by alphabetical order ? \n"
-                "1 - Yes \n"
-                "2 - No"
+                "Do you want the list of players by alphabetical order or by ranking ? \n"
+                "1 - Ranking players list \n"
+                "2 - Alphabetical players list"
             )
-            choice = check.request_selection_with_number("Yes", "No", "None")
-            if choice == "Yes":
+            choice = check.request_selection_with_number("alphabetical", "ranking", "None")
+            if choice == "alphabetical":
                 deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.first_name)
                 for deserialized_player in deserialized_player_list:
                     print(deserialized_player)
-            elif choice == "No":
+            elif choice == "ranking":
+                deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.ranking)
                 for deserialized_player in deserialized_player_list:
                     print(deserialized_player)
 
@@ -120,3 +127,7 @@ class ViewJoueurs:
                     players_id["player_{0}".format(str(key))] = id_choice
                     break
         return players_id
+
+    def display_empty_players_file(self) -> None:
+        """Simply display message if players.json are empty"""
+        print("\nNo players has been created yet")

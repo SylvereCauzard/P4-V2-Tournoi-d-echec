@@ -12,20 +12,28 @@ class ControllerJoueur:
         """Get the user entry info and create a player"""
 
         family_name, name, birthday, sexe, classement = self.view.ask_info_player()
-        player = Player(family_name, name, birthday, sexe, classement)
+        faced_players = []
+        player = Player(family_name, name, birthday, sexe, classement, faced_players)
         player.save()
 
-    def instantiates_players(self) -> dict:
-        """instantiates 8 players selected by the user in a dict"""
 
-        players_list = self.view.create_players_id_dict()
-        for key in players_list:
-            player_data = PLAYERS.get(doc_id=players_list.get(key))
-            players_list[key] = Player(
-                family_name=player_data.get("family_name"),
-                name=player_data.get("name"),
-                birthday=player_data.get("birthday"),
-                sexe=player_data.get("sexe"),
-                classement=player_data.get("classement"),
-            )
-        return players_list
+    def instantiates_players(self) -> list[Player]:
+        """deserialize 8 players selected by the user in a dict"""
+        deserialized_players_list = []
+        players_ids_list = self.view.create_players_id_dict()
+        for player_id in players_ids_list:
+            player = Player.deserialize_player(Player, player_id)
+            deserialized_players_list.append(player)
+
+        return deserialized_players_list
+
+    def check_data_players_numbers(self) -> bool:
+        """check if json are empty or not"""
+        players_number = 0
+        for player in PLAYERS:
+            players_number += 1
+
+        if players_number != 0:
+            return False
+        else:
+            return True

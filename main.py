@@ -4,4 +4,4 @@ from Controllers.c_menu import MenuSelection
 
 view = ViewMenu()
 app = MenuSelection(view)
-app.main_menu()
+app.run_main_menu_selection()

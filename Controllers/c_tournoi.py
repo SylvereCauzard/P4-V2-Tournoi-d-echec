@@ -2,9 +2,10 @@ from Modèles.m_tournoi import Tournoi
 from Controllers.c_player import ControllerJoueur
 from Vues.v_player import ViewJoueurs
 
+import check_functions as check
+
 from data import TOURNOIS
-from typing import Union
-import json
+
 from tinydb import where
 
 
@@ -24,32 +25,37 @@ class ControllerTournois:
         tournament.save()
         print("\n The tournament named '{}' has been saved !".format(name))
 
-    def instantiate_tournament(self) -> Union[Tournoi, int]:
-        """instantiate tournament saved in tournaments.json"""
-        self.view.show_tournaments()
-        tournament_id = self.view.request_id(TOURNOIS)
-        tournament_data = TOURNOIS.get(doc_id=tournament_id)
-        tournament = Tournoi(
-            name=tournament_data.get("name"),
-            place=tournament_data.get("place"),
-            date=tournament_data.get("date"),
-            time=tournament_data.get("time"),
-            description=tournament_data.get("description")
-        )
-        return tournament, tournament_id
-
     def add_tournament_players(self):
-        """Add 8 players to a selected tournament"""
-        tournament, tournament_id = self.instantiate_tournament()
-        # player
-        tournament.players = self.player_controller.instantiates_players()
-        tournament_data = TOURNOIS.get(doc_id=tournament_id)
-        serialized_players_list = []
+        """Add 8 serialized players to a selected tournament"""
+        if self.check_data_tournaments_numbers():
+            self.view.display_empty_tournaments_file()
+        else:
+            self.view.show_tournaments()
+            self.view.display_choose_a_tournament()
+            tournament_id = check.request_id(TOURNOIS)
+            tournament = Tournoi.deserialize_tournament(Tournoi, tournament_id)
+            tournament.players = self.player_controller.instantiates_players()
+            tournament_data = TOURNOIS.get(doc_id=tournament_id)
+            serialized_players_list = []
 
-        for player in tournament.players.values():
-            serialized_player = json.dumps(player.__dict__)
-            serialized_players_list.append(serialized_player)
+            for player in tournament.players:
+                serialized_player = player.serialize()
+                serialized_players_list.append(serialized_player)
 
-        TOURNOIS.update({"players": serialized_players_list}, where("name") == tournament_data.get("name"))
-        print("Selected players have been added to the tournament")
+            TOURNOIS.update({"players": serialized_players_list}, where("name") == tournament_data.get("name"))
+            TOURNOIS.update(
+                {"players_round_id": tournament.players_round_id},
+                where("players_round_id") == tournament_data.get("players_round_id"))
 
+            self.view.display_selected_players(tournament.players)
+
+    def check_data_tournaments_numbers(self) -> bool:
+        """check if json are empty or not"""
+        tournaments_number = 0
+        for tournament in TOURNOIS:
+            tournaments_number += 1
+
+        if tournaments_number != 0:
+            return False
+        else:
+            return True
