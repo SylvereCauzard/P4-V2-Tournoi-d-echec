@@ -49,42 +49,41 @@ class ViewJoueurs:
         return family_name, name, sexe, birthday, classement
 
     def show_players(self):
-        """Show all players with id in players.json in alphabetical order or not according to the user choice"""
-        liste_player = []
-        for player in PLAYERS:
+        """Show all players with id in players.json in alphabetical order or by ranking according user choice"""
+        liste_players = []
+        for players in PLAYERS:
             data_player = (
-                    str(player.get("family_name")) + " " +
-                    str(player.get("name")) + " | " +
-                    str(player.get("birthday")) + " | " +
-                    str(player.get("sexe")) + " | " +
-                    str(player.get("classement"))
+                    f"{players.get('family_name')} |"
+                    f"{players.get('name')} |"
+                    f"{players.get('birthday')} |"
+                    f"{players.get('sexe')} |"
+                    f"{players.get('classement')}"
             )
-            liste_player.append(data_player)
+            liste_players.append(data_player)
 
         print(
             "Voulez vous la liste des joueurs par ordre alphabétique ou de classement ? \n"
             "1 - Liste des joueurs par classement \n"
             "2 - Liste des joueurs par ordre alphabétique"
             )
-        choice = check.request_selection_with_number("classement", "alphabétique", "None")
-        if choice == "classement":
-            player_id = 0
-            players_list = sorted(liste_player, key=lambda player: players_list[4])
+        choix = check.request_selection_with_number("classement", "alphabétique", "None")
+        if choix == "classement":
+            player_classement = 0
+            liste_players = sorted(liste_players, key=lambda player: player_classement)
             print("*******************************************")
             print("Liste de tous les joueurs par classement : ")
             print("*******************************************")
-            for player in players_list:
-                player_id += 1
-                print(str(player_id) + " : " + player)
-        elif choice == "alphabétique":
+            for player in liste_players:
+                player_classement += 1
+                print(str(player_classement) + " : " + str(player))
+        elif choix == "alphabétique":
             player_id = 0
-            liste_player.sort()
             print("***************************************************")
             print("Liste de tous les joueurs par ordre alphabétique : ")
             print("***************************************************")
-            for player in liste_player:
+            for player in liste_players:
                 player_id += 1
-                print(str(player_id) + " : " + player)
+                print(str(player_id) + " : " + str(player))
 
     def show_players_specific_tournament(self) -> None:
         """Show player of specific tournament"""
@@ -103,28 +102,26 @@ class ViewJoueurs:
                 "1 - Liste des joueurs par classement \n"
                 "2 - Liste des joueurs par ordre alphabétique"
             )
-            choice = check.request_selection_with_number("alphabétique", "classement", "None")
-            if choice == "alphabétique":
-                deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.first_name)
+            choix = check.request_selection_with_number("alphabétique", "classement", "None")
+            if choix == "alphabétique":
+                deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.family_name)
                 for deserialized_player in deserialized_player_list:
                     print(deserialized_player)
-            elif choice == "classement":
-                deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.ranking)
+            elif choix == "classement":
+                deserialized_player_list = sorted(deserialized_player_list, key=lambda player: player.classement)
                 for deserialized_player in deserialized_player_list:
                     print(deserialized_player)
 
-    def create_players_id_dict(self) -> dict:
+    def create_players_id_dict(self):
         """Request 8 id of players saved in players.json and return dict like this player_1 = id_selected ect"""
-        players_id = {}
-        key = 0
+        players_id = []
         self.show_players()
         print("\n" + "Entrer l'id des joueurs voulu : ")
         while len(players_id) < 8:
             while True:
                 id_choice = check.request_id(PLAYERS)
                 if check.check_not_same_value(players_id, id_choice) is True:
-                    key += 1
-                    players_id["player_{0}".format(str(key))] = id_choice
+                    players_id.append(id_choice)
                     break
         return players_id
 

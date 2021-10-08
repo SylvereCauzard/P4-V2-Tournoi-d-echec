@@ -1,7 +1,7 @@
 from string import digits, punctuation
 import datetime
 
-
+from datetime import datetime
 
 def check_input_string_len(string_to_check) -> bool:
     """Check input string entry for enter 2 character minimum"""

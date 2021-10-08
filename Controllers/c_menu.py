@@ -57,7 +57,7 @@ class MenuSelection:
                 self.run_main_menu = "No"
                 quit()
             elif choix == "":
-                print("You must enter a number ! ")
+                print("Vous devez entrer un chiffre ! ")
 
     def run_menu_secondaire_selection(self) -> None:
         while self.run_menu_secondaire == "Yes":
@@ -81,9 +81,9 @@ class MenuSelection:
             if choix == "5":
                 self.run_main_menu_selection()
             if choix == "":
-                print("You must enter a number ! ")
+                print("Vous devez entrer un chiffre ! ")
 
-    def run_resultat_round_selection(self) -> None:
+    def run_resultat_rounds_selection(self) -> None:
         self.tournament_controller.view.show_tournaments()
         print("Choissisez un tournoi pour voir les résultats : ")
         tournament_id = check.request_id(TOURNOIS)

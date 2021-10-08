@@ -39,7 +39,6 @@ class Round:
         else:
             players_list = sorted(players_list, key=lambda player: player.ranking)
         players_list.reverse()
-        # Lancer fonction de génération
         apairing_players = self.generating_pairs(players_list)
 
         return apairing_players

@@ -12,7 +12,7 @@ class RoundView:
         print("**********************")
         while True:
             result = input(
-                "Enter the result of " + str(player_a.family_name.upper()) + " : "
+                "Entrer le résultat de " + str(player_a.family_name.upper()) + " : "
             )
             result = float(result)
             if result == 1:
@@ -95,6 +95,6 @@ class RoundView:
         """simply print message for continue tournament or not"""
         print("Do you want to continue to the next Round ?")
         print(
-            "1 - Continue to the next Round\n"
-            "2 - Exit and save"
+            "1 - Continuer le prochain tour\n"
+            "2 - Sortir et sauvegarder"
             )

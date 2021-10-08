@@ -36,16 +36,16 @@ class Player:
         pass
 
     @staticmethod
-    def modify_player_ranking(cls: "Player"):
+    def modify_player_ranking():
         """To modify manually the player ranking"""
         player_id = check.request_id(PLAYERS)
         print(str(player_id))
         player = Player.deserialize_player(Player, player_id)
-        print(f"The general score of {player.family_name} is {str(player.classement)}")
-        print(f"Enter the new general score for {player.family_name} : ")
+        print(f"Le classement d'élo de {player.family_name} est {str(player.classement)}")
+        print(f"Entre son nouvelle élo {player.family_name} : ")
         new_player_score = check.request_number()
         PLAYERS.update({"Classement": new_player_score}, doc_ids=[player_id])
-        print(f"The general score of {player.family_name} is now at {str(new_player_score)}")
+        print(f"Le classement d'élo de {player.family_name} est maintenant de {str(new_player_score)}")
 
     @staticmethod
     def deserialize_player(cls, key: int) -> "Player":

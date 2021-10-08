@@ -13,7 +13,7 @@ class ControllerTournois:
 
     def __init__(self, view) -> None:
         self.view = view
-        self.player_view = ViewJoueurs
+        self.player_view = ViewJoueurs()
         self.player_controller = ControllerJoueur(self.player_view)
 
     def get_info_tournament(self) -> None:
@@ -44,9 +44,6 @@ class ControllerTournois:
                 serialized_players_list.append(serialized_player)
 
             TOURNOIS.update({"players": serialized_players_list}, where("name") == tournament_data.get("name"))
-            TOURNOIS.update(
-                {"players_round_id": tournament.players_round_id},
-                where("players_round_id") == tournament_data.get("players_round_id"))
 
             self.view.display_selected_players(tournament.players)
 
